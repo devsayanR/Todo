@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useTodo } from '../context';
-import { FaRegSave, FaEdit } from "react-icons/fa";
+import { FaRegSave } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { MdAutoDelete } from "react-icons/md";
+import { MdAutoDelete, MdEdit } from "react-icons/md";
 
 const TodoItem = ({ todo }) => {
     const [isTodoEditable, setIsTodoEditable] = useState(false)
@@ -23,7 +23,7 @@ const TodoItem = ({ todo }) => {
         if (todo.complete) {
             timer = setTimeout(() => {
                 deleteTodo(todo.id);
-            }, 5000);
+            }, 300000);
         }
         return () => clearTimeout(timer);
     }, [todo.complete, deleteTodo, todo.id]);
@@ -33,7 +33,7 @@ const TodoItem = ({ todo }) => {
             <div className='flex items-center justify-center'>
                 <input
                     type="checkbox"
-                    className="cursor-pointer border-none outline-none toggle toggle-xs sm:toggle-sm"
+                    className="cursor-pointer border-none outline-none toggle toggle-xs sm:toggle-sm toggle-success"
                     checked={todo.complete}
                     onChange={toggleCompleted}
                 />
@@ -51,7 +51,7 @@ const TodoItem = ({ todo }) => {
 
             {/* Edit, Save Button */}
             <button
-                className="inline-flex w-8 h-8 rounded-lg text-md justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:hidden text-black border-none outline-none"
+                className="inline-flex w-8 h-8 rounded-lg text-xl bg-zinc-900 justify-center items-center text-green-500 shrink-0 disabled:hidden border-none outline-none"
                 onClick={() => {
                     if (todo.complete) return;
 
@@ -60,7 +60,7 @@ const TodoItem = ({ todo }) => {
                     } else setIsTodoEditable((prev) => !prev);
                 }}
                 disabled={todo.complete}
-            > {isTodoEditable ? <FaRegSave /> : <FaEdit />} </button>
+            > {isTodoEditable ? <FaRegSave /> : <MdEdit />} </button>
 
             {/* Delete Todo Button */}
             {
@@ -68,12 +68,12 @@ const TodoItem = ({ todo }) => {
                     <button
                         disabled={true}
                         title='It will be deleted automatically after 5 minutes'
-                        className="inline-flex w-8 h-8 text-black rounded-lg text-lg border-none outline-none justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:opacity-50"
+                        className="inline-flex w-8 h-8 rounded-lg bg-zinc-900 text-xl border-none outline-none justify-center items-center text-red-500 shrink-0 disabled:opacity-50"
                         onClick={() => deleteTodo(todo.id)}
                     > <MdAutoDelete /> </button>
                 ) : (
                     <button
-                        className="inline-flex w-8 h-8 text-black rounded-lg text-lg border-none outline-none justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0"
+                        className="inline-flex w-8 h-8 rounded-lg bg-zinc-900 text-xl border-none outline-none justify-center items-center text-red-500 shrink-0"
                         onClick={() => deleteTodo(todo.id)}
                     > <MdDelete /> </button>
                 )
